@@ -3,15 +3,15 @@ using UniversiteDomain.Entities;
  
 namespace UniversiteDomain.DataAdapters;
  
-public interface IEtudiantRepository 
+public interface IEtudiantRepository : IRepository<Etudiant>
 {
-    Task<Etudiant> CreateAsync(Etudiant entity);
-    Task UpdateAsync(Etudiant entity);
-    Task DeleteAsync(long id);
-    Task DeleteAsync(Etudiant entity);
-    Task<Etudiant?> FindAsync(long id);
-    Task<Etudiant?> FindAsync(params object[] keyValues);
-    Task<List<Etudiant>> FindByConditionAsync(Expression<Func<Etudiant, bool>> condition);
-    Task<List<Etudiant>> FindAllAsync();
-    Task SaveChangesAsync();
+    new Task<Etudiant> CreateAsync(Etudiant entity);
+    new Task UpdateAsync(Etudiant entity);
+    new Task DeleteAsync(long id);
+    new Task DeleteAsync(Etudiant entity);
+    new Task<Etudiant?> FindAsync(long id);
+    new Task<Etudiant?> FindAsync(params object[] keyValues);
+    new Task<List<Etudiant>> FindByConditionAsync(Expression<Func<Etudiant, bool>> condition);
+    new Task<List<Etudiant>> FindAllAsync();
+    new Task SaveChangesAsync();
 }
