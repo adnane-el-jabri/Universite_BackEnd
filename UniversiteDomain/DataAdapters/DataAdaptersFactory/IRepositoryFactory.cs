@@ -1,4 +1,6 @@
-﻿namespace UniversiteDomain.DataAdapters.DataAdaptersFactory;
+﻿using UniversiteDomain.Entities;
+
+namespace UniversiteDomain.DataAdapters.DataAdaptersFactory;
 
 public interface IRepositoryFactory
 {
@@ -10,4 +12,5 @@ public interface IRepositoryFactory
     Task EnsureDeletedAsync();
     Task EnsureCreatedAsync();
     Task SaveChangesAsync();
+    Task<List<Parcours>> FindByConditionAsync(Func<object, object> p0);
 }

@@ -1,50 +1,46 @@
-﻿using UniversiteDomain.DataAdapters;
-using UniversiteDomain.Entities;
-using UniversiteDomain.Exceptions.EtudiantExceptions;
-using UniversiteDomain.Exceptions.ParcoursExceptions;
+﻿
 using UniversiteDomain.DataAdapters;
+using UniversiteDomain.DataAdapters.DataAdaptersFactory;
 using UniversiteDomain.Entities;
 using UniversiteDomain.Exceptions.EtudiantExceptions;
 
-namespace Universite.Domain.UseCases.ParcoursUseCases.Create;
 
-public class CreateParcoursUseCase(IParcoursRepository parcoursRepository)
+public class CreateParcoursUseCase(IRepositoryFactory repositoryFactory)
 {
-    public async Task<Parcours> ExecuteAsync(int id_parcours, string nom, int année_parcours)
+    
+
+    public async Task<Parcours> ExecuteAsync(string nomParcours, int anneeFormation)
     {
-        var parcours = new Parcours(){Id = id_parcours, NomParcours = nom, AnneeFormation = année_parcours};
+        var parcours = new Parcours { NomParcours = nomParcours, AnneeFormation = anneeFormation };
         return await ExecuteAsync(parcours);
+    }
+
+    public async Task<Parcours> ExecuteAsync(Parcours parcours)
+    {
+        await CheckBusinessRules(parcours);
+        Parcours pr = await repositoryFactory.ParcoursRepository().CreateAsync(parcours);
+        repositoryFactory.ParcoursRepository().SaveChangesAsync().Wait();
+        return pr;
     }
 
     private async Task CheckBusinessRules(Parcours parcours)
     {
         ArgumentNullException.ThrowIfNull(parcours);
         ArgumentNullException.ThrowIfNull(parcours.NomParcours);
-        ArgumentNullException.ThrowIfNull(parcours.AnneeFormation);
-        ArgumentNullException.ThrowIfNull(parcours.Id);
-        
-        // On recherche un étudiant avec le même numéro étudiant
-        List<Parcours> existe = await parcoursRepository.FindByConditionAsync(e=>e.NomParcours.Equals(parcours.NomParcours));
-        List<Parcours> parcour = await parcoursRepository.FindByConditionAsync(e=>e.AnneeFormation.Equals(parcours.AnneeFormation));
-        // Si un étudiant avec le même numéro étudiant existe déjà, on lève une exception personnalisée
-        if (existe .Any()&&parcour.Any()) throw new DuplicateNomParcoursException(parcours.NomParcours+ " - ce  parcours deja existant");
-        
-        
-        if (parcours.NomParcours.Length < 3) throw new InvalidNomEtudiantException(parcours.NomParcours +" incorrect - Le nom d'un parcours doit contenir plus de 3 caractères");
-    }
+    
+        List<Parcours> existe = await repositoryFactory.ParcoursRepository().FindByConditionAsync(p => p.NomParcours.Equals(parcours.NomParcours));
 
-    public async Task<Parcours> ExecuteAsync(Parcours parcours)
-    {
-        await CheckBusinessRules(parcours);
-        Parcours et = await parcoursRepository.CreateAsync(parcours);
-        parcoursRepository.SaveChangesAsync().Wait();
-        return et;
+        if (existe is {Count:>=0}) 
+            throw new DuplicateInscriptionException(parcours.NomParcours + " Ce parcours existe déjà");
+
+        if (parcours.AnneeFormation < 1 || parcours.AnneeFormation > 2)
+            throw new FormationYearException("L'année de formation est incorrecte.");
     }
 }
 
-internal class DuplicateNomParcoursException : Exception
+internal class FormationYearException : Exception
 {
-    public DuplicateNomParcoursException(string ceParcoursDejaExistant)
+    public FormationYearException(string lAnnéeDeFormationEstIncorrecte)
     {
         throw new NotImplementedException();
     }
