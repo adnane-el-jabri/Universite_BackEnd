@@ -1,5 +1,4 @@
 ﻿namespace UniversiteDomain.Exceptions.UeExceptions;
-
 [Serializable]
 public class DuplicateUeDansParcoursException : Exception
 {
