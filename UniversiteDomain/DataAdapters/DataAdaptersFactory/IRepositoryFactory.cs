@@ -1,19 +1,16 @@
 ﻿using UniversiteDomain.Entities;
 
-namespace UniversiteDomain.DataAdapters.DataAdaptersFactory;
+namespace UniversiteDomain.DataAdapters;
 
 public interface IRepositoryFactory
 {
     IParcoursRepository ParcoursRepository();
     IEtudiantRepository EtudiantRepository();
     IUeRepository UeRepository();
-    // Méthodes de gestion de la dadasource
-    // Ce sont des méthodes qui permettent de gérer l'ensemble du data source
-    // comme par exemple tout supprimer ou tout créer
+    INoteRepository NoteRepository();
+    
+    // Gestion de la base de données
     Task EnsureDeletedAsync();
     Task EnsureCreatedAsync();
     Task SaveChangesAsync();
-    Task<List<Parcours>> FindByConditionAsync(Func<object, object> p0);
-    
-
 }
