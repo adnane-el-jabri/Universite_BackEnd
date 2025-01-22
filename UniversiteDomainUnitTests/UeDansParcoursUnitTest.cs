@@ -1,7 +1,7 @@
 ﻿using Moq;
 using System.Linq.Expressions;
 using UniversiteDomain.DataAdapters;
-using UniversiteDomain.DataAdapters.DataAdaptersFactory;
+using UniversiteDomain.DataAdapters;
 using UniversiteDomain.Entities;
 using UniversiteDomain.UseCases.ParcoursUseCases.UeDansParcours;
 using NUnit.Framework;
