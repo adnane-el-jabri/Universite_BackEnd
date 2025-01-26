@@ -6,7 +6,7 @@ namespace UniversiteDomain.DataAdapters;
 public interface IEtudiantRepository : IRepository<Etudiant>
 {
     new Task<Etudiant> CreateAsync(Etudiant entity);
-    new Task UpdateAsync(Etudiant entity);
+    new Task UpdateAsync(Etudiant etudiant);
     new Task DeleteAsync(long id);
     new Task DeleteAsync(Etudiant entity);
     new Task<Etudiant?> FindAsync(long id);
@@ -15,4 +15,6 @@ public interface IEtudiantRepository : IRepository<Etudiant>
     new Task<List<Etudiant>> FindAllAsync();
     Task<Etudiant> GetByIdAsync(long id);
     new Task SaveChangesAsync();
+    Task<Etudiant?> FindEtudiantCompletAsync(long idEtudiant);
+   
 }

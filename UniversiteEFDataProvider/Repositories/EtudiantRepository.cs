@@ -26,4 +26,13 @@ public class EtudiantRepository(UniversiteDbContext context) : Repository<Etudia
     {
         throw new NotImplementedException();
     }
+    public async Task<Etudiant?> FindEtudiantCompletAsync(long idEtudiant)
+    {
+        return await context.Etudiants
+            .Include(e => e.ParcoursSuivi)
+            .Include(e => e.Notes)
+            .ThenInclude(n => n.Ue)
+            .FirstOrDefaultAsync(e => e.Id == idEtudiant);
+    }
+
 }
