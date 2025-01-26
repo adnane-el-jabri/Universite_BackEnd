@@ -49,6 +49,11 @@ public class CreateParcoursUseCase
         if (parcours.AnneeFormation < 1 || parcours.AnneeFormation > 2)
             throw new FormationYearException("L'année de formation est incorrecte.");
     }
+    public bool IsAuthorized(string role)
+    {
+        return role.Equals(Roles.Responsable) || role.Equals(Roles.Scolarite);
+    }
+
 }
 
 // Exception correctement définie

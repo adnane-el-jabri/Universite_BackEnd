@@ -66,4 +66,9 @@ public class AddUeDansParcoursUseCase(IRepositoryFactory repositoryFactory)
             throw new DuplicateUeDansParcoursException($"UE {idUe} est déjà ajoutée au parcours {idParcours}");
         }
     }
+    public bool IsAuthorized(string role)
+    {
+        return role.Equals(Roles.Responsable) || role.Equals(Roles.Scolarite);
+    }
+
 }

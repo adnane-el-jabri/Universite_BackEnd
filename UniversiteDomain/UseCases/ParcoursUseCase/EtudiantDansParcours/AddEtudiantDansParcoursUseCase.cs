@@ -60,4 +60,9 @@ public class AddEtudiantDansParcoursUseCase(IRepositoryFactory repositoryFactory
         List<Etudiant> inscrit = await repositoryFactory.EtudiantRepository().FindByConditionAsync(e=>e.Id.Equals(idEtudiant) && e.ParcoursSuivi.Id.Equals(idParcours));
         if (inscrit is { Count: > 0 }) throw new DuplicateInscriptionException(idEtudiant+" est déjà inscrit dans le parcours dans le parcours : "+idParcours);     
     }
+    public bool IsAuthorized(string role)
+    {
+        return role.Equals(Roles.Responsable) || role.Equals(Roles.Scolarite);
+    }
+
 }

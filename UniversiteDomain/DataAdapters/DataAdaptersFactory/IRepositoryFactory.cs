@@ -8,6 +8,8 @@ public interface IRepositoryFactory
     IEtudiantRepository EtudiantRepository();
     IUeRepository UeRepository();
     INoteRepository NoteRepository();
+    IUniversiteRoleRepository UniversiteRoleRepository();
+    IUniversiteUserRepository UniversiteUserRepository();
     
     
     
