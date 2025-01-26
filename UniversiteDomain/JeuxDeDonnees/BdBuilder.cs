@@ -1,5 +1,4 @@
 ﻿using UniversiteDomain.DataAdapters;
-
 namespace UniversiteDomain.JeuxDeDonnees;
 
 public abstract class BdBuilder(IRepositoryFactory repositoryFactory)
@@ -24,14 +23,12 @@ public abstract class BdBuilder(IRepositoryFactory repositoryFactory)
         await NoterAsync();
         
         // Gestion de la sécurité
-        /* A décommenter quand on aura rajouté la sécu
-// Création des rôles
-Console.WriteLine("BuildRoles");
-//await BuildRolesAsync();
-// Création des utilisateurs
-Console.WriteLine("BuildUsers");
-//wait BuildUsersAsync();
-        */
+        // Création des rôles
+        Console.WriteLine("BuildRoles");
+        await BuildRolesAsync();
+        // Création des utilisateurs 
+        Console.WriteLine("BuildUsers");
+        await BuildUsersAsync();
     }
 
     protected abstract Task RegenererBdAsync();

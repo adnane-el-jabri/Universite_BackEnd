@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using UniversiteDomain.Entities;
+using UniversiteEFDataProvider.Entities;
 
 namespace UniversiteEFDataProvider.Data;
  
-public class UniversiteDbContext : DbContext
+public class UniversiteDbContext : IdentityDbContext<UniversiteUser>
 {
     public static readonly ILoggerFactory consoleLogger = LoggerFactory.Create(builder => { builder.AddConsole(); });
     
@@ -79,9 +81,24 @@ public class UniversiteDbContext : DbContext
         modelBuilder.Entity<Note>()
             .HasOne(n => n.Ue)
             .WithMany(ue => ue.Notes);
+        // Propriétés de la table UniversiteUser
+        //OneToOne vers UniversityUser
+        modelBuilder.Entity<UniversiteUser>()
+            .HasOne<Etudiant>(user => user.Etudiant)
+            .WithOne()
+            .HasForeignKey<Etudiant>();
+        modelBuilder.Entity<Etudiant>()
+            .HasOne<UniversiteUser>()
+            .WithOne(user => user.Etudiant)
+            .HasForeignKey<UniversiteUser>(user => user.EtudiantId);
+        // Permet d'inclure automatiquement l'étudiant dans le user sans avoir besoin de préciser la jointure
+        modelBuilder.Entity<UniversiteUser>().Navigation<Etudiant>(user => user.Etudiant).AutoInclude();
+        modelBuilder.Entity<UniversiteRole>();
     }
     public DbSet <Parcours>? Parcours { get; set; }
     public DbSet <Etudiant>? Etudiants { get; set; }
     public DbSet <Ue>? Ues { get; set; }
     public DbSet <Note>? Notes { get; set; }
+    public DbSet <UniversiteUser>? UniversiteUsers { get; set; }
+    public DbSet<UniversiteRole>? UniversiteRoles { get; set; }
 }
