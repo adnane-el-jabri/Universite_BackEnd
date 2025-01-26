@@ -13,5 +13,6 @@ public interface IEtudiantRepository : IRepository<Etudiant>
     new Task<Etudiant?> FindAsync(params object[] keyValues);
     new Task<List<Etudiant>> FindByConditionAsync(Expression<Func<Etudiant, bool>> condition);
     new Task<List<Etudiant>> FindAllAsync();
+    Task<Etudiant> GetByIdAsync(long id);
     new Task SaveChangesAsync();
 }

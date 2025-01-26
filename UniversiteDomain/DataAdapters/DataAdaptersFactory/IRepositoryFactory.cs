@@ -9,8 +9,14 @@ public interface IRepositoryFactory
     IUeRepository UeRepository();
     INoteRepository NoteRepository();
     
+    
+    
+    
+    
     // Gestion de la base de données
     Task EnsureDeletedAsync();
     Task EnsureCreatedAsync();
     Task SaveChangesAsync();
+    Task<Etudiant> CreateAsync(Etudiant etudiant);
+    
 }

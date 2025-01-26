@@ -5,6 +5,7 @@ namespace UniversiteDomain.Entities;
 
 public class Note
 {
+    
     public long Id { get; set; }
     public float Valeur { get; set; } // La note (0-20)
 

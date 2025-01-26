@@ -53,6 +53,12 @@ public class RepositoryFactory (UniversiteDbContext context): IRepositoryFactory
     {
         context.SaveChangesAsync().Wait();
     }
+
+    public Task<Etudiant> CreateAsync(Etudiant etudiant)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task EnsureCreatedAsync()
     {
         context.Database.EnsureCreated();
