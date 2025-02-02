@@ -20,6 +20,13 @@ using System.Text;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Mvc;
+using UniversiteDomain.UseCases.ParcoursUseCases.Delete;
+using UniversiteDomain.UseCases.ParcoursUseCases.Get;
+using UniversiteDomain.UseCases.ParcoursUseCases.Update;
+using UniversiteDomain.UseCases.UeUseCases.Create;
+using UniversiteDomain.UseCases.UeUseCases.Delete;
+using UniversiteDomain.UseCases.UeUseCases.Get;
+using UniversiteDomain.UseCases.UeUseCases.Update;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,11 +49,23 @@ builder.Services.AddDbContext<UniversiteDbContext>(options => options.UseMySQL(c
 // Enregistrement des services de la BD et des Repositories
 builder.Services.AddScoped<IRepositoryFactory, RepositoryFactory>();
 builder.Services.AddScoped<IEtudiantRepository, EtudiantRepository>();
+builder.Services.AddScoped<IUeRepository, UeRepository>();
+builder.Services.AddScoped<IParcoursRepository, ParcoursRepository>();
+
 builder.Services.AddScoped<CreateEtudiantUseCase>();
 builder.Services.AddScoped<DeleteEtudiantUseCase>();
 builder.Services.AddScoped<UpdateEtudiantUseCase>();
 builder.Services.AddScoped<GetEtudiantCompletUseCase>();
-
+// Enregistrement des UseCases pour Parcours
+builder.Services.AddScoped<CreateParcoursUseCase>();  // Ajout de cette ligne
+builder.Services.AddScoped<DeleteParcoursUseCase>();
+builder.Services.AddScoped<UpdateParcoursUseCase>();
+builder.Services.AddScoped<GetParcoursUseCase>();
+// Enregistrement des UseCases pour UE
+builder.Services.AddScoped<CreateUeUseCase>();
+builder.Services.AddScoped<GetUeUseCase>();
+builder.Services.AddScoped<UpdateUeUseCase>();
+builder.Services.AddScoped<DeleteUeUseCase>();
 // Sécurisation : Configuration d’Identity
 builder.Services.AddIdentity<UniversiteUser, UniversiteRole>()
     .AddEntityFrameworkStores<UniversiteDbContext>()

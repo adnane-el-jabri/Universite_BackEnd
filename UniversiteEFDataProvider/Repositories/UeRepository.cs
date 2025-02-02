@@ -31,4 +31,13 @@ public class UeRepository(UniversiteDbContext context) : Repository<Ue>(context)
         }
         return (await Context.Ues.FindAsync(idUe))!;
     }
+    public async Task<List<Ue>> GetAllAsync()
+    {
+        return await Context.Ues.ToListAsync();
+    }
+
+    public async Task<Ue> GetByIdAsync(long id)
+    {
+        return await Context.Ues.FindAsync(id);
+    }
 }

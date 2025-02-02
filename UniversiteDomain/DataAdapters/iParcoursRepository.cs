@@ -13,5 +13,10 @@ public interface IParcoursRepository : IRepository<Parcours>
 
     // Ajouter plusieurs UEs à un parcours
     Task<Parcours> AddUeAsync(long idParcours, long[] idUes);
+    Task UpdateAsync(Parcours parcours);
+    Task DeleteAsync(long id);
+    Task<List<Parcours>> GetAllAsync();
+    Task<Parcours> GetByIdAsync(long id);
+
     
 }

@@ -119,5 +119,14 @@ public class ParcoursRepository(UniversiteDbContext context) : Repository<Parcou
         await Context.SaveChangesAsync();
         return parcours;
     }
+    public async Task<List<Parcours>> GetAllAsync()
+    {
+        return await Context.Parcours.ToListAsync();
+    }
+
+    public async Task<Parcours> GetByIdAsync(long id)
+    {
+        return await Context.Parcours.FindAsync(id);
+    }
 
 }
