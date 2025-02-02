@@ -9,6 +9,7 @@ public class GetEtudiantCompletUseCase(IRepositoryFactory factory)
     {
         await CheckBusinessRules();
         Etudiant? etudiant = await factory.EtudiantRepository().FindEtudiantCompletAsync(idEtudiant);
+        //Etudiant? etudiant=await factory.EtudiantRepository().FindAsync(idEtudiant);
         return etudiant;
     }
 

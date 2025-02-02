@@ -5,6 +5,7 @@ using UniversiteDomain.DataAdapters;
 using UniversiteEFDataProvider.Data;
 
 
+
 public class EtudiantRepository(UniversiteDbContext context) : Repository<Etudiant>(context), IEtudiantRepository
 {
     public async Task AffecterParcoursAsync(long idEtudiant, long idParcours)
@@ -22,17 +23,20 @@ public class EtudiantRepository(UniversiteDbContext context) : Repository<Etudia
         await AffecterParcoursAsync(etudiant.Id, parcours.Id); 
     }
 
-    public Task<Etudiant> GetByIdAsync(long id)
+    public async Task<Etudiant> GetByIdAsync(long id)
     {
-        throw new NotImplementedException();
+        return await context.Etudiants.FindAsync(id);
     }
+
+    
     public async Task<Etudiant?> FindEtudiantCompletAsync(long idEtudiant)
     {
-        return await context.Etudiants
-            .Include(e => e.ParcoursSuivi)
-            .Include(e => e.Notes)
-            .ThenInclude(n => n.Ue)
-            .FirstOrDefaultAsync(e => e.Id == idEtudiant);
+        ArgumentNullException.ThrowIfNull(Context.Etudiants);
+        return await Context.Etudiants.Include(e => e.Notes).ThenInclude(n=>n.Ue).FirstOrDefaultAsync(e => e.Id == idEtudiant);
+    }
+    public async Task<List<Etudiant>> GetAllAsync()
+    {
+        return await Context.Etudiants.ToListAsync();
     }
 
 }

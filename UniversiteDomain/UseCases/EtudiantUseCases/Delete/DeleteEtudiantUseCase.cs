@@ -29,4 +29,8 @@ public class DeleteEtudiantUseCase
 
         return true;
     }
+    public bool IsAuthorized(string role)
+    {
+        return role == Roles.Scolarite || role == Roles.Responsable;
+    }
 }
