@@ -34,7 +34,7 @@ namespace UniversiteRestApi.Controllers
         /// <summary>
         /// Vérifie l'authentification et l'autorisation de l'utilisateur
         /// </summary>
-        private void CheckSecu(out string role, out string email, out IUniversiteUser user)
+        /*private void CheckSecu(out string role, out string email, out IUniversiteUser user)
         {
             role = "";
             ClaimsPrincipal claims = HttpContext.User;
@@ -58,7 +58,55 @@ namespace UniversiteRestApi.Controllers
             
             bool isInRole = new IsInRoleUseCase(_repositoryFactory).ExecuteAsync(email, role).Result; 
             if (!isInRole) throw new UnauthorizedAccessException();
+        }*/
+        private void CheckSecu(out string role, out string email, out IUniversiteUser user)
+        {
+            role = "";
+            ClaimsPrincipal claims = HttpContext.User;
+
+            if (claims.Identity?.IsAuthenticated != true)
+            {
+                Console.WriteLine("⚠️ L'utilisateur n'est pas authentifié.");
+                throw new UnauthorizedAccessException();
+            }
+
+            var emailClaim = claims.FindFirst(ClaimTypes.Email);
+            if (emailClaim == null)
+            {
+                Console.WriteLine("⚠️ Aucun email trouvé dans les claims.");
+                throw new UnauthorizedAccessException();
+            }
+
+            email = emailClaim.Value;
+            Console.WriteLine($"✅ Utilisateur authentifié : {email}");
+
+            user = new FindUniversiteUserByEmailUseCase(_repositoryFactory).ExecuteAsync(email).Result;
+            if (user == null)
+            {
+                Console.WriteLine("⚠️ L'utilisateur n'existe pas en base.");
+                throw new UnauthorizedAccessException();
+            }
+
+            var roleClaim = claims.FindFirst(ClaimTypes.Role);
+            if (roleClaim == null)
+            {
+                Console.WriteLine("⚠️ Aucun rôle trouvé dans les claims.");
+                throw new UnauthorizedAccessException();
+            }
+
+            role = roleClaim.Value;
+            Console.WriteLine($"✅ Rôle détecté : {role}");
+
+            bool isInRole = new IsInRoleUseCase(_repositoryFactory).ExecuteAsync(email, role).Result;
+            if (!isInRole)
+            {
+                Console.WriteLine($"❌ L'utilisateur {email} n'a pas le rôle requis ({role}).");
+                throw new UnauthorizedAccessException();
+            }
+
+            Console.WriteLine($"✅ L'utilisateur {email} a bien le rôle {role}");
         }
+
 
         [HttpGet]
         public async Task<ActionResult<List<EtudiantDto>>> GetAllEtudiants()

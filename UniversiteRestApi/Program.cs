@@ -106,21 +106,29 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 // Ajout des routes d'identité personnalisées
-app.MapPost("/custom-login", async ([FromBody] LoginDto loginDto, UserManager<UniversiteUser> userManager) =>
+// Ajout des routes d'identité personnalisées
+app.MapPost("/custom-login", async ([FromBody] LoginDto loginDto, UserManager<UniversiteUser> userManager, RoleManager<UniversiteRole> roleManager) =>
 {
     var user = await userManager.FindByEmailAsync(loginDto.Email);
     if (user != null && await userManager.CheckPasswordAsync(user, loginDto.Password))
     {
+        // Récupérer les rôles de l'utilisateur
+        var userRoles = await userManager.GetRolesAsync(user);
         var authClaims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, user.UserName),
             new Claim(ClaimTypes.Email, user.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
+
+        // Ajouter chaque rôle trouvé aux claims
+        foreach (var role in userRoles)
+        {
+            authClaims.Add(new Claim(ClaimTypes.Role, role));
+        }
 
         var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("VotreCléSecrèteTrèsLongueEtSûre"));
 
@@ -138,6 +146,7 @@ app.MapPost("/custom-login", async ([FromBody] LoginDto loginDto, UserManager<Un
     }
     return Results.Unauthorized();
 });
+
 
 // Ajout des routes d'identité prédéfinies
 app.MapIdentityApi<UniversiteUser>();
