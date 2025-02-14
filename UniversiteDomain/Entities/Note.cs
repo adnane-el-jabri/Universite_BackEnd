@@ -7,7 +7,7 @@ public class Note
 {
     
     
-    public float Valeur { get; set; } // La note (0-20)
+    public double Valeur { get; set; } // La note (0-20)
 
     // Clés étrangères
     public long EtudiantId { get; set; }

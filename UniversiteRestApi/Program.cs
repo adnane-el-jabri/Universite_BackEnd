@@ -20,6 +20,7 @@ using System.Text;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Mvc;
+using UniversiteDomain.UseCases;
 using UniversiteDomain.UseCases.ParcoursUseCases.Delete;
 using UniversiteDomain.UseCases.ParcoursUseCases.Get;
 using UniversiteDomain.UseCases.ParcoursUseCases.Update;
@@ -51,6 +52,7 @@ builder.Services.AddScoped<IRepositoryFactory, RepositoryFactory>();
 builder.Services.AddScoped<IEtudiantRepository, EtudiantRepository>();
 builder.Services.AddScoped<IUeRepository, UeRepository>();
 builder.Services.AddScoped<IParcoursRepository, ParcoursRepository>();
+builder.Services.AddScoped<INoteRepository, NoteRepository>();
 
 builder.Services.AddScoped<CreateEtudiantUseCase>();
 builder.Services.AddScoped<DeleteEtudiantUseCase>();
@@ -66,6 +68,11 @@ builder.Services.AddScoped<CreateUeUseCase>();
 builder.Services.AddScoped<GetUeUseCase>();
 builder.Services.AddScoped<UpdateUeUseCase>();
 builder.Services.AddScoped<DeleteUeUseCase>();
+
+builder.Services.AddScoped<GenerateCsvForUeNotesUseCase>();
+builder.Services.AddScoped<UploadCsvForUeNotesUseCase>();
+builder.Services.AddScoped<ValidationUseCase>();
+
 // Sécurisation : Configuration d’Identity
 builder.Services.AddIdentity<UniversiteUser, UniversiteRole>()
     .AddEntityFrameworkStores<UniversiteDbContext>()

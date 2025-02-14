@@ -17,6 +17,7 @@ public interface IEtudiantRepository : IRepository<Etudiant>
     new Task SaveChangesAsync();
     public Task<Etudiant?> FindEtudiantCompletAsync(long idEtudiant);
     Task<List<Etudiant>> GetAllAsync();
+    Task<List<Etudiant>> GetEtudiantsByUeIdAsync(long ueId);
     
    
 }

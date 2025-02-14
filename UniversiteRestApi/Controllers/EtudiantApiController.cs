@@ -163,7 +163,7 @@ namespace UniversiteRestApi.Controllers
                 ModelState.AddModelError(nameof(e), e.Message);
                 return ValidationProblem();
             }
-
+            
             try
             {
                 user = new UniversiteUser { UserName = etudiantDto.Email, Email = etudiantDto.Email, Etudiant = etud };

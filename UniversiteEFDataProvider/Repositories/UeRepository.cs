@@ -40,4 +40,5 @@ public class UeRepository(UniversiteDbContext context) : Repository<Ue>(context)
     {
         return await Context.Ues.FindAsync(id);
     }
+    
 }

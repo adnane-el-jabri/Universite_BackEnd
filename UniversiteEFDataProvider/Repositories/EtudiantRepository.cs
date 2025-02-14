@@ -38,5 +38,12 @@ public class EtudiantRepository(UniversiteDbContext context) : Repository<Etudia
     {
         return await Context.Etudiants.ToListAsync();
     }
+    
+    public async Task<List<Etudiant>> GetEtudiantsByUeIdAsync(long ueId)
+    {
+        return await Context.Etudiants
+            .Where(e => Context.Notes.Any(n => n.EtudiantId == e.Id && n.UeId == ueId))
+            .ToListAsync();
+    }
 
 }

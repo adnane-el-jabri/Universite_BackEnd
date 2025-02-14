@@ -6,4 +6,5 @@ public interface IUeRepository : IRepository<Ue>
 {
     Task<List<Ue>> GetAllAsync();
     Task<Ue> GetByIdAsync(long id);
+    
 }

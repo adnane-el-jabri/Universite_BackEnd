@@ -52,7 +52,8 @@ public class BasicBdBuilder(IRepositoryFactory repositoryFactory) : BdBuilder(re
         new Ue { Id=1, NumeroUe = "ISI_01", Intitule = "Architecture des SI 1" },
         new Ue { Id=2, NumeroUe = "ISI_02", Intitule = "Conduite de projet" },
         new Ue { Id=3, NumeroUe = "GEO_05", Intitule = "Marketing" },
-        new Ue { Id=4, NumeroUe = "INFO_18", Intitule = "Architecture des SI 2" }
+        new Ue { Id=4, NumeroUe = "INFO_18", Intitule = "Architecture des SI 2" },
+        
     ];
 
     private struct Inscription
@@ -85,7 +86,8 @@ public class BasicBdBuilder(IRepositoryFactory repositoryFactory) : BdBuilder(re
         new UeDansParcours { UeId = 3, ParcoursId = 1 },
         new UeDansParcours { UeId = 4, ParcoursId = 2 },
         new UeDansParcours { UeId = 4, ParcoursId = 3 },
-        new UeDansParcours { UeId = 4, ParcoursId = 4 }
+        new UeDansParcours { UeId = 4, ParcoursId = 4 },
+        
     ];
     
     private struct Note
@@ -105,7 +107,9 @@ public class BasicBdBuilder(IRepositoryFactory repositoryFactory) : BdBuilder(re
         new Note { UeId = 3, EtudiantId = 4, Valeur = (float)11.5 },
         new Note { UeId = 4, EtudiantId = 1, Valeur = 10 },
         new Note { UeId = 4, EtudiantId = 5, Valeur = (float)18.3 },
-        new Note { UeId = 4, EtudiantId = 6, Valeur = 12 }
+        new Note { UeId = 4, EtudiantId = 6, Valeur = 12 },
+        
+        
     ];
     protected override async Task RegenererBdAsync()
     {

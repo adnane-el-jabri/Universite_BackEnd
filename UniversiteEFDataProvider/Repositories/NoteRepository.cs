@@ -45,5 +45,48 @@ public class NoteRepository(UniversiteDbContext context) : Repository<Note>(cont
         return await Context.Notes!
             .FirstOrDefaultAsync(n => n.EtudiantId == etudiantId && n.UeId == ueId);
     }
+    public async Task<List<Note>> GetNotesByUeIdAsync(long ueId)
+    {
+        return await context.Notes
+            .Where(n => n.UeId == ueId)
+            .ToListAsync();
+    }
+
+    // Ajouter ou mettre à jour une liste de notes
+    public async Task AddOrUpdateNotesAsync(List<Note> notes)
+    {
+        foreach (var note in notes)
+        {
+            var existingNote = await context.Notes
+                .FirstOrDefaultAsync(n => n.EtudiantId == note.EtudiantId && n.UeId == note.UeId);
+
+            if (existingNote != null)
+            {
+                existingNote.Valeur = note.Valeur; // Mise à jour de la note
+            }
+            else
+            {
+                await context.Notes.AddAsync(note);
+            }
+        }
+        await context.SaveChangesAsync();
+    }
+
+    // Sauvegarder ou mettre à jour une note unique
+    public async Task SaveOrUpdateAsync(Note note)
+    {
+        var existingNote = await context.Notes
+            .FirstOrDefaultAsync(n => n.EtudiantId == note.EtudiantId && n.UeId == note.UeId);
+
+        if (existingNote != null)
+        {
+            existingNote.Valeur = note.Valeur;
+        }
+        else
+        {
+            await context.Notes.AddAsync(note);
+        }
+        await context.SaveChangesAsync();
+    }
 
 }
